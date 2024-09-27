@@ -128,4 +128,5 @@ form {
   width: 125px;
   height: 40px;
   margin: 32px auto;
+  /* display: block; */
 }

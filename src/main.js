@@ -59,6 +59,7 @@ async function addImage(InputSearch, pageGrowthJs, eventCome) {
         iconUrl: iconUrl,
         imageWidth: 30,
       });
+
       const iziToastElStyle = document.querySelector('.iziToast');
       iziToastElStyle.style.borderRadius = '10px';
       iziToastElStyle.style.overflow = 'hidden';
@@ -76,33 +77,6 @@ async function addImage(InputSearch, pageGrowthJs, eventCome) {
       renderData(comingsImg.hits, userList);
       if (eventCome?.type === 'submit') {
         btnMorePosts.style.display = 'block';
-      }
-
-      const li = userList.querySelectorAll('li');
-      if (comingsImg.totalHits <= li.length) {
-        btnMorePosts.style.display = 'none';
-        iziToast.show({
-          message: "We're sorry, but you've reached the end of search results.",
-          messageColor: '#000',
-          messageSize: '18px',
-          messageLineHeight: '20px',
-          backgroundColor: 'rgb(37, 150, 190)',
-          position: 'topRight',
-          timeout: 5000000,
-        });
-        const iziToastElStyle = document.querySelector('.iziToast');
-        iziToastElStyle.style.borderRadius = '10px';
-        iziToastElStyle.style.overflow = 'hidden';
-        const iziToastEl = document.querySelector('.iziToast-wrapper');
-        iziToastEl.style.position = 'fixed';
-
-        if (eventCome?.type === 'submit') {
-          loader.style.display = 'none';
-          loaderMore.style.display = 'none';
-        } else {
-          loaderMore.style.display = 'none';
-        }
-        return;
       }
 
       gallery.refresh();
