@@ -75,8 +75,37 @@ async function addImage(InputSearch, pageGrowthJs, eventCome) {
         loaderMore.style.display = 'block';
       }
       renderData(comingsImg.hits, userList);
-      if (eventCome?.type === 'submit') {
+      if (comingsImg.hits.length < 15) {
+        btnMorePosts.style.display = 'none';
+      } else if (eventCome?.type === 'submit') {
         btnMorePosts.style.display = 'block';
+      }
+
+      const li = userList.querySelectorAll('li');
+      if (comingsImg.totalHits <= li.length) {
+        // btnMorePosts.style.display = 'none';
+        iziToast.show({
+          message: "We're sorry, but you've reached the end of search results.",
+          messageColor: '#000',
+          messageSize: '18px',
+          messageLineHeight: '20px',
+          backgroundColor: 'rgb(37, 150, 190)',
+          position: 'topRight',
+          timeout: 5000,
+        });
+        const iziToastElStyle = document.querySelector('.iziToast');
+        iziToastElStyle.style.borderRadius = '10px';
+        iziToastElStyle.style.overflow = 'hidden';
+        const iziToastEl = document.querySelector('.iziToast-wrapper');
+        iziToastEl.style.position = 'fixed';
+
+        if (eventCome?.type === 'submit') {
+          loader.style.display = 'none';
+          loaderMore.style.display = 'none';
+        } else {
+          loaderMore.style.display = 'none';
+        }
+        return;
       }
 
       gallery.refresh();
@@ -91,7 +120,7 @@ async function addImage(InputSearch, pageGrowthJs, eventCome) {
 
       const images = userList.querySelectorAll('img');
 
-      const imagesToLoad = Array.from(images).slice(-15);
+      const imagesToLoad = Array.from(images).slice(-comingsImg.hits.length);
 
       const imagePromises = imagesToLoad.map(loadImage);
 
@@ -144,12 +173,12 @@ gettingUserForm.addEventListener('submit', event => {
 });
 
 btnMorePosts.addEventListener('click', async event => {
-  pageGrowthJs++;
-
   if (!inputSearchListener) {
     return;
   }
   await addImage(inputSearchListener, pageGrowthJs);
+
+  pageGrowthJs++;
 
   const elem = document.querySelector('.gallery-list-item');
 
