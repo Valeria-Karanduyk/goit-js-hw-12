@@ -99,35 +99,29 @@ async function addImage(InputSearch, pageGrowthJs, eventCome) {
         const iziToastEl = document.querySelector('.iziToast-wrapper');
         iziToastEl.style.position = 'fixed';
 
-        if (eventCome?.type === 'submit') {
-          loader.style.display = 'none';
-          loaderMore.style.display = 'none';
-        } else {
-          loaderMore.style.display = 'none';
-        }
+        loader.style.display = 'none';
+        loaderMore.style.display = 'none';
         return;
-      }
-
-      gallery.refresh();
-
-      function loadImage(img) {
-        return new Promise((resolve, reject) => {
-          img.onload = () => resolve(img);
-          img.onerror = () =>
-            reject(new Error(`Failed to load image: ${img.src}`));
-        });
       }
 
       const images = userList.querySelectorAll('img');
 
       const imagesToLoad = Array.from(images).slice(-comingsImg.hits.length);
 
-      const imagePromises = imagesToLoad.map(loadImage);
+      const imagePromises = imagesToLoad.map(
+        img =>
+          new Promise((resolve, reject) => {
+            img.onload = () => resolve(img);
+            img.onerror = () =>
+              reject(new Error(`Failed to load image: ${img.src}`));
+          })
+      );
 
       Promise.all(imagePromises)
         .then(() => {
           loader.style.display = 'none';
           loaderMore.style.display = 'none';
+          gallery.refresh();
         })
         .catch(error => {
           console.error('Error loading images:', error);
