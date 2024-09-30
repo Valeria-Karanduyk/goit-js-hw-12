@@ -83,8 +83,8 @@ async function addImage(InputSearch, pageGrowthJs, eventCome) {
         btnMorePosts.style.display = 'block';
       }
 
-      const li = userList.querySelectorAll('li');
-      if (comingsImg.totalHits <= li.length && pageGrowthJs > 1) {
+      // const li = userList.querySelectorAll('li');
+      if (comingsImg.hits.length < 15) {
         // btnMorePosts.style.display = 'none';
         iziToast.show({
           message: "We're sorry, but you've reached the end of search results.",
