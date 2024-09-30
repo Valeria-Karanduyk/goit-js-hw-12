@@ -37,6 +37,8 @@ let gallery = new SimpleLightbox('.galleryEl a', {
   captionsData: 'alt',
 });
 
+gallery.refresh();
+
 const gettingUserForm = document.querySelector('.formFetchEl');
 const userList = document.querySelector('.galleryEl');
 let pageGrowthJs = 1;
@@ -47,7 +49,7 @@ async function addImage(InputSearch, pageGrowthJs, eventCome) {
   try {
     if ('message' in comingsImg) {
       throw comingsImg.message;
-    } else if (comingsImg.hits.length === 0) {
+    } else if (comingsImg.hits.length === 0 && pageGrowthJs > 1) {
       iziToast.show({
         message:
           'Sorry, there are no images matching <br> your search query. Please try again!',
@@ -82,7 +84,7 @@ async function addImage(InputSearch, pageGrowthJs, eventCome) {
       }
 
       const li = userList.querySelectorAll('li');
-      if (comingsImg.totalHits <= li.length) {
+      if (comingsImg.totalHits <= li.length && pageGrowthJs > 1) {
         // btnMorePosts.style.display = 'none';
         iziToast.show({
           message: "We're sorry, but you've reached the end of search results.",
@@ -131,21 +133,23 @@ async function addImage(InputSearch, pageGrowthJs, eventCome) {
     loader.style.display = 'none';
     loaderMore.style.display = 'none';
     btnMorePosts.style.display = 'none';
-    iziToast.show({
-      message: `Sorry, ${error}. Please try again!`,
-      messageColor: '#000',
-      messageSize: '18px',
-      messageLineHeight: '20px',
-      backgroundColor: 'rgb(255,153,102)',
-      position: 'topRight',
-    });
+    if (pageGrowthJs > 1) {
+      iziToast.show({
+        message: `Sorry, ${error}. Please try again!`,
+        messageColor: '#000',
+        messageSize: '18px',
+        messageLineHeight: '20px',
+        backgroundColor: 'rgb(255,153,102)',
+        position: 'topRight',
+      });
 
-    const iziToastElStyle = document.querySelector('.iziToast');
-    iziToastElStyle.style.borderRadius = '10px';
+      const iziToastElStyle = document.querySelector('.iziToast');
+      iziToastElStyle.style.borderRadius = '10px';
 
-    const iziToastEl = document.querySelector('.iziToast-wrapper');
-    iziToastEl.style.position = 'fixed';
-    iziToastElStyle.style.overflow = 'hidden';
+      const iziToastEl = document.querySelector('.iziToast-wrapper');
+      iziToastEl.style.position = 'fixed';
+      iziToastElStyle.style.overflow = 'hidden';
+    }
   }
 }
 
