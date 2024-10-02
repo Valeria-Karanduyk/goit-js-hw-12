@@ -48,7 +48,7 @@ form {
 }
 
 .btnEl,
-.btnMorePostsEl {
+.loader-more {
   background: #4e75ff;
   border-radius: 8px;
   padding: 8px 16px;
@@ -66,11 +66,11 @@ form {
 }
 
 .btnEl:hover,
-.btnMorePostsEl:hover {
+.loader-more:hover {
   background: #6c8cff;
 }
 
-.galleryEl {
+.gallery {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -123,7 +123,7 @@ form {
   height: 100%;
 }
 
-.btnMorePostsEl {
+.loader-more {
   padding: 8px 16px;
   width: 125px;
   height: 40px;
